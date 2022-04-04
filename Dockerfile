@@ -116,11 +116,13 @@ RUN git clone https://github.com/Livox-SDK/livox_ros_driver.git ws_livox/src \
     && /bin/bash -c '. devel/setup.bash'
 
 RUN mkdir -p catkin_ws/src \
+    && cd catkin_ws/src \
     && git clone https://github.com/hku-mars/FAST_LIO.git \
     && cd FAST_LIO \
-    && git submodule --init \
-    && cd ~/catkin_ws \
-    && catkin_make
+    && git submodule update --init
+
+RUN cd catkin_ws \
+    && /bin/bash -c '. /opt/ros/${ROS1_DISTRO}/setup.bash; . /home/docker/ws_livox/devel/setup.bash; catkin_make'
 
 #
 # Create a user with passwordless sudo
